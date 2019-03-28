@@ -64,7 +64,7 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
     }
 
     protected void configureOnClickListener() {
-        setOnClickListener(view -> ((DynamicAlertDialog)this).buildAlertDialog(view));
+        setOnClickListener(((DynamicAlertDialog) this)::buildAlertDialog);
     }
 
     protected void setTextOfSelectedIndex(int selectedIndex) {
