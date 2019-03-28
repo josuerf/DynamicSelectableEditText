@@ -48,11 +48,11 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
         setClickable(true);
     }
 
-    protected void setHasSearch(boolean value) {
+    public void setHasSearch(boolean value) {
         this.mHasSearch = value;
     }
 
-    protected void setItems(List<T> items) {
+    public void setItems(List<T> items) {
         this.mItems = items;
         this.mListableItems = new String[items.size()];
 
@@ -86,13 +86,13 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
         }
     }
 
-    protected void setSelectedItem(int idx) {
+    public void setSelectedItem(int idx) {
         setText(mListableItems[idx]);
         mSelectedItem = mItems.get(idx);
         mSelectedIndex = idx;
     }
 
-    protected T getItemByValue(String item) {
+    public T getItemByValue(String item) {
         for (int i = 0; i < mItems.size(); i++) {
             if (mItems.get(i).getLabel().equals(item))
                 return mItems.get(i);
@@ -100,7 +100,7 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
         return null;
     }
 
-    protected int getIndexByValue(String item) {
+    public int getIndexByValue(String item) {
         for (int i = 0; i < mItems.size(); i++) {
             if (mItems.get(i).getLabel().equals(item))
                 return i;
@@ -108,7 +108,7 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
         return 0;
     }
 
-    protected void setSelectedItem(String stringValue) {
+    public void setSelectedItem(String stringValue) {
         int i = 0;
         for (Selectable l : mItems) {
             if (l.getLabel().equals(stringValue)) {
@@ -121,15 +121,15 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
         }
     }
 
-    protected int getSelectedIndex() {
+    public int getSelectedIndex() {
         return mSelectedIndex;
     }
-    
-    protected T getSelectedItem() {
+
+    public T getSelectedItem() {
         return mSelectedItem;
     }
 
-    protected void setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
+    public void setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
         this.onItemSelectedListener = onItemSelectedListener;
     }
 
