@@ -47,7 +47,7 @@ public class MultiSelectEditText<T extends Selectable> extends DynamicSelectable
         if(placeHolderRecyclerView == null) {
             throw new RuntimeException(getResources().getString(R.string.error_placeholder_null));
         } else {
-            if (searchRVAdapter.removeJaSelecionados(placeHolderRecyclerView.getItems())) {
+            if (searchRVAdapter.removeEquals(placeHolderRecyclerView.getItems())) {
                 rvSearchDialog.post(() -> searchRVAdapter.notifyDataSetChanged());
             }
 
