@@ -24,7 +24,6 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
     protected final CharSequence mHint;
     protected boolean mHasSearch = false;
     protected OnItemSelectedListener<T> onItemSelectedListener;
-    protected DynamicAlertDialog dynamicAlertDialog;
 
     protected DynamicSelectableEditText(Context context) {
         super(context);
@@ -65,7 +64,7 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
     }
 
     protected void configureOnClickListener() {
-        setOnClickListener(view -> dynamicAlertDialog.buildAlertDialog(view));
+        setOnClickListener(view -> ((DynamicAlertDialog)this).buildAlertDialog(view));
     }
 
     protected void setTextOfSelectedIndex(int selectedIndex) {
