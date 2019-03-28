@@ -84,11 +84,11 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
         notifyDataSetChanged();
     }
 
-    public boolean removeJaSelecionados(List<Selectable> jaSelecionados) {
-        boolean foiRemovido = mFirstItems.removeAll(jaSelecionados);
+    public boolean removeEquals(List<Selectable> alreadySelected) {
+        boolean wasRemoved = mFirstItems.removeAll(alreadySelected);
         mFilteredItems = new ArrayList<>(mFirstItems);
-        mItems.removeAll(jaSelecionados);
-        return foiRemovido;
+        mItems.removeAll(alreadySelected);
+        return wasRemoved;
     }
 
     public List<Selectable> getFilterableList() {
