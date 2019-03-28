@@ -40,7 +40,7 @@ public class MultiSelectEditText<T extends Selectable> extends DynamicSelectable
 
         RecyclerView rvSearchDialog = RecyclerViewUtils.setUpSeachableDialogItems(getContext(), alertDialog,
                 new RVSearchAdapter(getContext(), (List<Selectable>) mItems,
-                        SearchType.MULTI_SELECT, mSearchOffset), null);
+                        SearchType.MULTI_SELECT, mSearchOffset));
 
         RVSearchAdapter searchRVAdapter = (RVSearchAdapter) rvSearchDialog.getAdapter();
         searchRVAdapter.setOnRefreshList(this);

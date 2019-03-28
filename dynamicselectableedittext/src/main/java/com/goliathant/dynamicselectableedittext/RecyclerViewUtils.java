@@ -16,7 +16,7 @@ import java.util.List;
 public class RecyclerViewUtils {
 
     public static RecyclerView setUpSeachableDialogItems(Context context, AlertDialog.Builder dialog,
-                                                         RecyclerView.Adapter adapter, List<Selectable> rvList) {
+                                                         RecyclerView.Adapter adapter) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_dynamic_search, null);
         RecyclerView recyclerView = view.findViewById(R.id.rv_search_info);
@@ -24,9 +24,6 @@ public class RecyclerViewUtils {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
         SearchableAdapter searchableAdapter = (SearchableAdapter) recyclerView.getAdapter();
-
-        if (rvList != null)
-            ((SearchableAdapter) recyclerView.getAdapter()).setItems(new ArrayList(rvList));
 
         setFilterableEditText(editBusca, searchableAdapter);
         dialog.setView(view);

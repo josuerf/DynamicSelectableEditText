@@ -35,7 +35,7 @@ public class SimpleSelectEditText<T extends Selectable> extends DynamicSelectabl
             Context context = alertBuilder.getContext();
             RecyclerView recyclerView = RecyclerViewUtils.setUpSeachableDialogItems(context,
                     alertBuilder, new RVSearchAdapter(context, (List<Selectable>) mItems,
-                            SearchType.SIMPLE_SELECT, mSearchOffset), null);
+                            SearchType.SIMPLE_SELECT, mSearchOffset));
 
             setUpOnScrollChangeListener(recyclerView);
 
