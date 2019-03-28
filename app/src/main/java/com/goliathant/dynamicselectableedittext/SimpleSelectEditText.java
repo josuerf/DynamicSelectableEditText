@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Josue on 28-03-2019.
  */
 
-public class SimpleSelectEditText<T extends Selectable> extends DynamicSelectableEditText<T> implements DynamicAlertDialog{
+public class SimpleSelectEditText<T extends Selectable> extends DynamicSelectableEditText<T> implements DynamicAlertDialog {
 
     protected SimpleSelectEditText(Context context) {
         super(context);
@@ -28,18 +28,15 @@ public class SimpleSelectEditText<T extends Selectable> extends DynamicSelectabl
 
     @Override
     public void buildAlertDialog(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle(mHint);
-        builder.setPositiveButton("Cancelar", null);
-        setAlertItems(builder);
-    }
-
-    @Override
-    protected void setAlertItems(AlertDialog.Builder alertBuilder) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());
+        alertBuilder.setTitle(mHint);
+        alertBuilder.setPositiveButton(R.string.alert_cancel, null);
         if (mHasSearch) {
             Context context = alertBuilder.getContext();
             RecyclerView recyclerView = RecyclerViewUtils.setUpSeachableDialogItems(context,
-                    alertBuilder, new RVSearchAdapter(context, (List<Selectable>) mItems, mSearchOffset), null);
+                    alertBuilder, new RVSearchAdapter(context, (List<Selectable>) mItems,
+                            SearchType.SIMPLE_SELECT, mSearchOffset), null);
+
             setUpOnScrollChangeListener(recyclerView);
 
             AlertDialog dialog = alertBuilder.create();

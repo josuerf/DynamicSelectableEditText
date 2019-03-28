@@ -6,13 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.List;
+
 /**
  * Created by Josue on 28-03-2019.
  */
 
-public class MultiSelectEditText<T extends Selectable> extends DynamicSelectableEditText<T> implements DynamicAlertDialog{
+public class MultiSelectEditText<T extends Selectable> extends DynamicSelectableEditText<T> implements DynamicAlertDialog {
 
-    private String dialogTitle;
+    private RecyclerViewManipulator placeHolderRecyclerView;
 
     protected MultiSelectEditText(Context context) {
         super(context);
@@ -26,31 +28,33 @@ public class MultiSelectEditText<T extends Selectable> extends DynamicSelectable
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public void buildAlertDialog(View view) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext());
-        alertDialog.setNegativeButton("Cancelar", (dialogInterface, i) -> dialogInterface.dismiss());
-        alertDialog.setTitle(dialogTitle);
-
-        RecyclerView rvDialogBusca = RecyclerViewUtils.setUpSeachableDialogItems(parent, alertDialog,
-                new ChipViewBuscaRvAdapter(parent, rvList), null);
-
-        ChipViewBuscaRvAdapter buscaRvAdapter = (ChipViewBuscaRvAdapter) rvDialogBusca.getAdapter();
-        buscaRvAdapter.setOnRefreshList(onRefreshContext);
-        if(buscaRvAdapter.removeJaSelecionados(((ChipViewRvAdapter)chipRvAdapter).getItems())){
-            rvDialogBusca.post(() -> buscaRvAdapter.notifyDataSetChanged());
-        }
-
-        setUpOnScrollChangeListener(rvDialogBusca);
-        alertDialog.setPositiveButton("Adicionar", ((dialogInterface, i) ->
-                ((ChipViewRvAdapter) chipRvAdapter).addAll(((ChipViewBuscaRvAdapter) rvDialogBusca.getAdapter()).getSelectedItems())));
-
-        alertDialog.create().show();
+    public void setPlaceHolderRecyclerView(RecyclerViewManipulator placeHolderRecyclerView) {
+        this.placeHolderRecyclerView = placeHolderRecyclerView;
     }
 
-
     @Override
-    protected void setAlertItems(AlertDialog.Builder alertBuilder) {
+    public void buildAlertDialog(View view) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        alertDialog.setNegativeButton(R.string.alert_cancel, (dialogInterface, i) -> dialogInterface.dismiss());
+        alertDialog.setTitle(mHint);
 
+        RecyclerView rvSearchDialog = RecyclerViewUtils.setUpSeachableDialogItems(getContext(), alertDialog,
+                new RVSearchAdapter(getContext(), (List<Selectable>) mItems,
+                        SearchType.MULTI_SELECT, mSearchOffset), null);
+
+        RVSearchAdapter searchRVAdapter = (RVSearchAdapter) rvSearchDialog.getAdapter();
+        searchRVAdapter.setOnRefreshList(this);
+        if(placeHolderRecyclerView == null) {
+            throw new RuntimeException(getResources().getString(R.string.error_placeholder_null));
+        } else {
+            if (searchRVAdapter.removeJaSelecionados(placeHolderRecyclerView.getItems())) {
+                rvSearchDialog.post(() -> searchRVAdapter.notifyDataSetChanged());
+            }
+
+            setUpOnScrollChangeListener(rvSearchDialog);
+            alertDialog.setPositiveButton(R.string.alert_add, ((dialogInterface, i) ->
+                    placeHolderRecyclerView.addAll(((RVSearchAdapter) rvSearchDialog.getAdapter()).getSelectedItems())));
+            alertDialog.create().show();
+        }
     }
 }

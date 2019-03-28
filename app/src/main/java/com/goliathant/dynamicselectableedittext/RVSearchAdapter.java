@@ -20,21 +20,20 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
     private final int mItemsHoldingLimit;
     private final List<Selectable> mItems;
     private final List<Selectable> mFirstItems;
-    private final List<Selectable> mFilteredItems;
-
+    private List<Selectable> mFilteredItems;
+    private List<Selectable> mSelectedItems;
     private String mSelectedItem;
     private OnRefreshList mOnRefreshList;
-    private List<Selectable> mSelectedItems;
     private FilterableEditTextItemClickListener mClickListener;
 
     public RVSearchAdapter(Context context, List<Selectable> items, SearchType searchType, int itemsHoldingLimit) {
-        this.mContext = context;
-        this.mSearchType = searchType;
-        this.mItemsHoldingLimit = itemsHoldingLimit;
+        mContext = context;
+        mSearchType = searchType;
+        mItemsHoldingLimit = itemsHoldingLimit;
 
-        this.mFirstItems = new ArrayList<>(items);
-        this.mFilteredItems = new ArrayList<>(items);
-        this.mItems = new ArrayList<>(items.size() > 10 ? items.subList(0, 10) : items);
+        mFirstItems = new ArrayList<>(items);
+        mFilteredItems = new ArrayList<>(items);
+        mItems = new ArrayList<>(items.size() > 10 ? items.subList(0, 10) : items);
 
         if(mSearchType == SearchType.MULTI_SELECT)
             mSelectedItems = new ArrayList<>();
@@ -78,11 +77,18 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
 
     @Override
     public void setItems(List<Selectable> items) {
-        this.mFilteredItems.clear();
-        this.mFilteredItems.addAll(items);
-        this.mItems.clear();
-        this.mItems.addAll(items.size() > mItemsHoldingLimit ? items.subList(0, mItemsHoldingLimit) : items);
-        this.notifyDataSetChanged();
+        mFilteredItems.clear();
+        mFilteredItems.addAll(items);
+        mItems.clear();
+        mItems.addAll(items.size() > mItemsHoldingLimit ? items.subList(0, mItemsHoldingLimit) : items);
+        notifyDataSetChanged();
+    }
+
+    public boolean removeJaSelecionados(List<Selectable> jaSelecionados) {
+        boolean foiRemovido = mFirstItems.removeAll(jaSelecionados);
+        mFilteredItems = new ArrayList<>(mFirstItems);
+        mItems.removeAll(jaSelecionados);
+        return foiRemovido;
     }
 
     public List<Selectable> getFilterableList() {
@@ -96,6 +102,14 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
     @Override
     public List<Selectable> getItems() {
         return this.mItems;
+    }
+
+    public List<Selectable> getSelectedItems() {
+        if(mSelectedItems != null) {
+            return mSelectedItems;
+        } else {
+            throw new RuntimeException(mContext.getResources().getString(R.string.error_not_simpleselect));
+        }
     }
 
     @Override
@@ -151,7 +165,7 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
 
         public MultiSelectViewHolder(View itemView) {
             super(itemView);
-            cbxItem = itemView.findViewById(R.id.item_multi_select);
+            cbxItem = itemView.findViewById(R.id.cbx_item);
         }
 
         @Override

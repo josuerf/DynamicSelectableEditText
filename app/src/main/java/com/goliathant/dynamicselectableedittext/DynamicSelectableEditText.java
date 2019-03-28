@@ -2,7 +2,6 @@ package com.goliathant.dynamicselectableedittext;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,12 +65,8 @@ public abstract class DynamicSelectableEditText<T extends Selectable> extends Ap
     }
 
     protected void configureOnClickListener() {
-        setOnClickListener(view -> {
-            dynamicAlertDialog.buildAlertDialog(view);
-        });
+        setOnClickListener(view -> dynamicAlertDialog.buildAlertDialog(view));
     }
-
-    protected abstract void setAlertItems(AlertDialog.Builder alertBuilder);
 
     protected void setTextOfSelectedIndex(int selectedIndex) {
         setText(mItems.get(selectedIndex).getLabel());

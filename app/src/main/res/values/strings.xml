@@ -2,4 +2,7 @@
     <string name="app_name">DynamicSelectableEditText</string>
     <string name="alert_cancel">Cancel</string>
     <string name="alert_edt_hint">Search</string>
+    <string name="alert_add">Add</string>
+    <string name="error_placeholder_null">Can\'t build the alert dialog, try to set your placeholder recyclerview that the items will be added.</string>
+    <string name="error_not_simpleselect">"Can\'t get the selected items from a SimpleSelectEditText."</string>
 </resources>
