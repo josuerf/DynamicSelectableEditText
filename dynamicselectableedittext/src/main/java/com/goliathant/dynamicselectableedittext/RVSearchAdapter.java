@@ -171,7 +171,10 @@ public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.RVSear
         @Override
         void bind(Selectable object) {
             cbxItem.setText(object.getLabel());
+            cbxItem.setOnCheckedChangeListener(null);
+            cbxItem.setChecked(object.isSelected());
             cbxItem.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                object.setSelected(isChecked);
                 if (isChecked) {
                     addSelectedItem(object);
                 } else {

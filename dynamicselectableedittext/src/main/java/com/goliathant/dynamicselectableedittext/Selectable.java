@@ -6,4 +6,6 @@ package com.goliathant.dynamicselectableedittext;
 
 public interface Selectable {
     String getLabel();
+    boolean isSelected();
+    void setSelected(boolean selected);
 }
